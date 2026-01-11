@@ -1,0 +1,17 @@
+version: '4.0'
+services:
+  postgres:
+    image: postgres:15 # Use the official PostgreSQL 15 image from Docker Hub
+    container_name: my_postgres # Name of the container
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: mydatabase
+    ports:
+      - "5432:5432" # Port mapping
+  redis:
+    image: redis:7 # Use the official Redis 7 image from Docker Hub
+    container_name: my_redis # Name of the container
+    ports:
+      - "6379:6379" # Port mapping
+    command: ["redis-server", "--appendonly", "yes"] # Enable AOF persistence

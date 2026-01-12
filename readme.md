@@ -428,3 +428,36 @@ In this example:
 - The `builder` stage compiles TypeScript to JavaScript
 - The `runtime` stage only copies the compiled `dist` folder, excluding TypeScript source and build tools
 - This results in a much smaller final image since TypeScript compiler and dev dependencies are not included
+
+
+## Optimizing docker Image
+To optimize your Docker image, consider the following techniques:
+1. **Use a smaller base image:** Choose a minimal base image like `alpine` to reduce the overall size of your image.
+2. **Minimize layers:** Combine multiple `RUN` commands into a single command to reduce
+the number of layers in your image.
+3. **Layer Caching:** static files and dependencies like `package.json`, `package-lock.json` should be copied before the application code to leverage Docker's layer caching and frequently changing files should be copied later.
+4. **Remove unnecessary files:** Use a `.dockerignore` file to exclude files and directories that are not needed in the Docker image, such as `node_modules`, `dist`, and `.git`.
+5. **Use multi-stage builds:** As demonstrated above, multi-stage builds help separate the build environment from the runtime environment, resulting in smaller images.
+
+
+By applying these techniques, you can create efficient and optimized Docker images for your Node.js applications.
+
+# Container Patterns
+Container patterns are best practices and design patterns for building and deploying containerized applications. Here are some common container patterns:
+1. **Side Car Pattern:** In this pattern, a secondary container (sidecar) runs alongside the main application container to provide additional functionality, such as logging, monitoring, or proxying.
+2. **Ambassador Pattern:** An ambassador container acts as a proxy for the main application container, handling communication with external services(microservices) or other containers.
+
+
+3. **Adapter Pattern:** An adapter container is used to transform data or requests between the main application container and external services.
+This is useful when integrating legacy systems or services with different protocols. 
+
+`For instance,we've a legacy application that communicates using a specific protocol, and we want to integrate it with a modern service that uses a different protocol. We can create an adapter container that translates requests and responses between the two protocols`
+
+4. **Work Queue Pattern:** In this pattern, a queue is used to distribute tasks among multiple worker containers. This is useful for processing background jobs or handling asynchronous tasks.
+
+5. **Init pattern:** In this pattern a init container is used to perform initialization tasks and exit before the main application container starts.This can include tasks like database migrations, configuration setup, or data seeding.
+
+`In side car pattern secondary container runs alongside the main application container while in init pattern init container runs first to perform initialization tasks and exits before the main application container starts.`
+
+## Conclusion
+By using these container patterns, you can build more modular, scalable, and maintainable containerized applications.
